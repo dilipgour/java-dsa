@@ -34,7 +34,14 @@ void main(){
     String ruleKey = "color", ruleValue = "silver";
 
 //    System.out.println(countMatches(items,ruleKey,ruleValue));
-    System.out.println(largestAltitude(new int[]{-4,-3,-2,-1,4,3,2}));
+//    System.out.println(largestAltitude(new int[]{-4,-3,-2,-1,4,3,2}));
+    int[][] ans = flipAndInvertImage(new int[][]{{1,1,0},{1,0,1},{0,0,0}});
+    for (int i = 0; i < ans.length; i++) {
+        System.out.println(Arrays.toString(ans[i]));
+    }
+
+
+
 }
 
 
@@ -297,3 +304,34 @@ int largestAltitude(int[] gain) {
     }
 return highest;
 }
+
+//https://leetcode.com/problems/flipping-an-image/description/
+//image = [[1,1,0],[1,0,1],[0,0,0]]
+//[[1,0,0],[0,1,0],[1,1,1]]
+
+int[][] flipAndInvertImage(int[][] image) {
+int[][] ans = new int[image.length][image.length];
+
+    for (int i = 0; i < image.length; i++) {
+        for (int j = image.length-1; j > -1; j--) {
+
+            if(image[i][j]==1){
+                ans[i][image.length-j-1]=0;
+            }else{
+                ans[i][image.length-j-1]=1;
+         }
+
+        }
+
+    }
+    return ans;
+}
+
+
+
+
+
+
+
+
+
