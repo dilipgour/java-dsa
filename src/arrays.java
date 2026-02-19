@@ -16,7 +16,7 @@ void main(){
 
     //int ans = topWealth(new int[][]{{1,2,3},{4,5,6}});
 //    int [] arr = new int[]{8,1,2,2,3};
-    int[] nums = {0,1,2,3,4}, index = {0,1,2,2,1};
+//    int[] nums = {0,1,2,3,4}, index = {0,1,2,2,1};
 
 //  System.out.println(Arrays.toString(shuffleArray(arr,3)));
 
@@ -26,16 +26,32 @@ void main(){
 //  System.out.println(Arrays.toString(createTargetArray(nums,index)));
 //  System.out.println(checkIfPangram("leet"));
 
-    List<List<String>> items = List.of(
-            List.of("phone", "blue", "pixel"),
-            List.of("computer", "silver", "lenovo"),
-            List.of("phone", "gold", "iphone")
-    );
-    String ruleKey = "color", ruleValue = "silver";
+//    List<List<String>> items = List.of(
+//            List.of("phone", "blue", "pixel"),
+//            List.of("computer", "silver", "lenovo"),
+//            List.of("phone", "gold", "iphone")
+//    );
+//    String ruleKey = "color", ruleValue = "silver";
 
 //    System.out.println(countMatches(items,ruleKey,ruleValue));
 //    System.out.println(largestAltitude(new int[]{-4,-3,-2,-1,4,3,2}));
-    int[][] ans = flipAndInvertImage(new int[][]{{1,1,0},{1,0,1},{0,0,0}});
+//    int[][] ans = flipAndInvertImage(new int[][]{{1,1,0},{1,0,1},{0,0,0}});
+//    for (int i = 0; i < ans.length; i++) {
+//        System.out.println(Arrays.toString(ans[i]));
+//    }
+//    System.out.println(oddCells( 2,  3, new int[][]{{0,1},{1,1}}));
+
+//    int[][] mat = {{1,1,1,1},
+//                   {1,1,1,1},
+//            {1,1,1,1},
+//            {1,1,1,1}};
+//
+//    System.out.println(diagonalSum(mat));
+
+//    System.out.println(findNumbers(new int[] {555,901,482,1771}));
+
+    int[][] ans = transpose(new int[][]{{1,2,3},{4,5,6}});
+
     for (int i = 0; i < ans.length; i++) {
         System.out.println(Arrays.toString(ans[i]));
     }
@@ -328,10 +344,85 @@ int[][] ans = new int[image.length][image.length];
 }
 
 
+//https://leetcode.com/problems/cells-with-odd-values-in-a-matrix/description/
+//m = 2, n = 3, indices = [[0,1],[1,1]]
+//6
+
+int oddCells(int m, int n, int[][] indices) {
+    int count =  0;
+    int[][] mat = new int[m][n];
+
+    for (int i = 0; i <indices.length ; i++) {
+        for (int j = 0; j < n; j++) {
+            mat[indices[i][0]][j]++;
+        }
+
+        for (int j = 0; j < m; j++) {
+            mat[j][indices[i][1]]++;
+        }
+    }
+    for (int i = 0; i < mat.length; i++) {
+        for (int j = 0; j < mat[i].length; j++) {
+            if(mat[i][j]%2!=0) count++;
+        }
+
+    }
+
+    return count;
+}
 
 
+//https://leetcode.com/problems/matrix-diagonal-sum/description/
+//mat = [[1,2,3],
+//       [4,5,6],
+//       [7,8,9]]
+//25
+
+int diagonalSum(int[][] mat) {
+int sum=0;
+
+    for (int i = 0; i < mat.length; i++) {
+        sum+= mat[i][i];
+        sum+=mat[i][mat.length-i-1];
+
+    }
+
+    if(mat.length%2!=0){
+        sum-= mat[mat.length/2][mat.length/2];
+    }
+    return sum;
+}
+
+//https://leetcode.com/problems/find-numbers-with-even-number-of-digits/description/
+//nums = [12,345,2,6,7896]
+//2
+
+int findNumbers(int[] nums) {
+    int count=0;
+    for (int i = 0; i < nums.length; i++) {
+        if(countdigit(nums[i])%2==0) count++;
+
+    }
+    return count;
+
+}
+
+int countdigit(int n){
+    return (int)Math.floor(Math.log10(n) + 1);
+}
 
 
+//https://leetcode.com/problems/transpose-matrix/description/
+//matrix = [[1,2,3],[4,5,6],[7,8,9]]
+// [[1,4,7],[2,5,8],[3,6,9]]
 
+int[][] transpose(int[][] matrix) {
+int[][] ans = new int[matrix[0].length][matrix.length];
 
-
+    for (int i = 0; i < matrix.length; i++) {
+        for (int j = 0; j < matrix[i].length; j++) {
+            ans[j][i]= matrix[i][j];
+        }
+    }
+    return ans;
+}
