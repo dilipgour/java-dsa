@@ -50,14 +50,21 @@ void main(){
 
 //    System.out.println(findNumbers(new int[] {555,901,482,1771}));
 
-    int[][] ans = transpose(new int[][]{{1,2,3},{4,5,6}});
+//    int[][] ans = transpose(new int[][]{{1,2,3},{4,5,6}});
+//
+//    for (int i = 0; i < ans.length; i++) {
+//        System.out.println(Arrays.toString(ans[i]));
+//    }
+//
 
-    for (int i = 0; i < ans.length; i++) {
-        System.out.println(Arrays.toString(ans[i]));
-    }
+//    System.out.println(addToArrayForm(new int[]{2,7,4}, 181));
+
+//    System.out.println(maximumPopulation(new int[][]{{1993,1999},{2000,2010}}));
 
 
+//    System.out.println(Arrays.toString(twoSum(new int[]{2,7,11,15}  ,9)));
 
+    System.out.println(Arrays.toString(sumZero(5)));
 }
 
 
@@ -424,5 +431,100 @@ int[][] ans = new int[matrix[0].length][matrix.length];
             ans[j][i]= matrix[i][j];
         }
     }
+    return ans;
+}
+
+//https://leetcode.com/problems/add-to-array-form-of-integer/description/
+//num = [1,2,0,0], k = 34
+// [1,2,3,4]
+
+List<Integer> addToArrayForm(int[] num, int k) {
+    List<Integer> ans = new ArrayList<>();
+    int i = num.length - 1;
+    int carry = 0;
+
+    while (i >= 0 || k > 0 || carry > 0) {
+        int sum = carry;
+
+        if (i >= 0) {
+            sum += num[i];
+            i--;
+        }
+
+        if (k > 0) {
+            sum += k % 10;
+            k /= 10;
+        }
+
+        ans.add(sum % 10);
+        carry = sum / 10;
+    }
+
+    Collections.reverse(ans);
+    return ans;
+}
+
+
+//https://leetcode.com/problems/maximum-population-year/description/
+//logs = [[1993,1999],[2000,2010]]
+//1993
+
+int maximumPopulation(int[][] logs) {
+int[] arr = new int[101];
+
+    for (int i = 0; i < logs.length; i++) {
+        for (int j = logs[i][0]; j <logs[i][1] ; j++) {
+            arr[j-1950]++;
+
+        }
+    }
+    int maxval=0;
+    int maxyear=1950;
+
+    for (int i = 0; i < arr.length; i++) {
+        if(arr[i]>maxval){
+            maxval=arr[i];
+            maxyear=i+1950;
+        }
+    }
+
+    return maxyear;
+}
+
+//https://leetcode.com/problems/determine-whether-matrix-can-be-obtained-by-rotation/description/
+//could not done
+
+//https://leetcode.com/problems/two-sum/
+//nums = [2,7,11,15]  target = 9
+//[0,1]
+
+    int[] twoSum(int[] nums, int target) {
+     int[] ans= new int[2];
+
+        for (int i = 0; i < nums.length-1; i++) {
+            for (int j = i+1; j <nums.length ; j++) {
+                if(nums[i]+nums[j]==target){
+                    ans[0]=i;
+                    ans[1]=j;
+                    return ans;
+                }
+
+            }
+        }
+        return nums;
+    }
+//https://leetcode.com/problems/find-n-unique-integers-sum-up-to-zero/description/
+//n = 5
+// [-7,-1,1,3,4]
+int[] sumZero(int n) {
+int[] ans= new int[n];
+int sum=0;
+
+    for (int i = 0; i < n-1; i++) {
+        ans[i]= i+1;
+        sum+= i+1;
+    }
+    sum*=-1;
+    ans[n-1]=sum;
     return ans;
 }
