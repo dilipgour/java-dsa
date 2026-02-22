@@ -64,7 +64,12 @@ void main(){
 
 //    System.out.println(Arrays.toString(twoSum(new int[]{2,7,11,15}  ,9)));
 
-    System.out.println(Arrays.toString(sumZero(5)));
+//    System.out.println(Arrays.toString(sumZero(5)));
+
+//    System.out.println(luckyNumbers(new int[][] {{3,7},{9,11},{15,16}}));
+
+    System.out.println(maxSubArray(new int[]{
+            -2,1,-3,4,-1,2,1,-5,4}));
 }
 
 
@@ -527,4 +532,54 @@ int sum=0;
     sum*=-1;
     ans[n-1]=sum;
     return ans;
+}
+
+
+//https://leetcode.com/problems/lucky-numbers-in-a-matrix/description/
+//matrix = [[3,7,8],[9,11,13],[15,16,17]]
+// [15]
+
+List<Integer> luckyNumbers(int[][] matrix) {
+List<Integer> ans = new ArrayList<>();
+
+    for (int i = 0; i < matrix.length; i++) {
+        int rowmin=Integer.MAX_VALUE;
+        int colindex=0;
+        for (int j = 0; j < matrix[i].length; j++) {
+            if(matrix[i][j]<rowmin) {
+                rowmin=matrix[i][j];
+                colindex=j;
+            }
+
+        }
+//        System.out.println(rowmin);
+//        System.out.println(colindex);
+
+        boolean isLucky = true;
+        for (int j = 0; j < matrix.length; j++) {
+         if(matrix[j][colindex]>rowmin) isLucky=false;
+
+        }
+     if(isLucky) ans.add(rowmin);
+
+    }
+    return ans;
+}
+
+//https://leetcode.com/problems/maximum-subarray/description/
+//nums = [-2,1,-3,4,-1,2,1,-5,4]
+// 6
+
+int maxSubArray(int[] nums) {
+    int max=0;
+
+    for (int i = 0; i <nums.length ; i++) {
+        int cursum=0;
+        for (int j = i; j <nums.length-1 ; j++) {
+            cursum+=nums[j];
+            max=Math.max(cursum,max);
+
+        }
+    }
+return max;
 }
