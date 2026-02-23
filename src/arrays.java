@@ -68,8 +68,23 @@ void main(){
 
 //    System.out.println(luckyNumbers(new int[][] {{3,7},{9,11},{15,16}}));
 
-    System.out.println(maxSubArray(new int[]{
-            -2,1,-3,4,-1,2,1,-5,4}));
+//    System.out.println(maxSubArray(new int[]{
+//            -2,1,-3,4,-1,2,1,-5,4}));
+
+//    int[][] ans = matrixReshape(new int[][] {{1,2,3,4},{5,6,7,8}}, 4, 2);
+//
+//    for (int i = 0; i < ans.length; i++) {
+//        System.out.println(Arrays.toString(ans[i]));
+//    }
+
+
+//    System.out.println(Arrays.toString(plusOne(new int[]{1,2,3})));
+
+    System.out.println(removeDuplicates(new int[]{0,0,1,1,1,2,2,3,3,4}));
+
+
+
+
 }
 
 
@@ -582,4 +597,86 @@ int maxSubArray(int[] nums) {
         }
     }
 return max;
+}
+
+//https://leetcode.com/problems/reshape-the-matrix/description/
+//mat = [[1,2],[3,4]], r = 1, c = 4
+//[[1,2,3,4]]
+
+int[][] matrixReshape(int[][] mat, int r, int c) {
+    if(r*c!=mat.length*mat[0].length){
+        return mat;
+    }
+
+ int[][] ans = new int[r][c];
+ int row=0;
+ int col=0;
+
+    for (int i = 0; i < mat.length; i++) {
+        for (int j = 0; j < mat[i].length; j++) {
+
+            if(col==c){
+                col=0;
+                row++;
+
+            }
+            ans[row][col++]=mat[i][j];
+        }
+
+    }
+    return ans;
+
+}
+
+//https://leetcode.com/problems/plus-one/
+//digits = [1,2,3]
+//[1,2,4]
+
+int[] plusOne(int[] digits) {
+    int length = digits.length;
+
+
+    for (int i = length-1; i > -1; i--) {
+
+        if(digits[i]+1>9){
+            digits[i]=0;
+        }else{
+          digits[i]++;
+          return digits;
+        }
+
+    }
+        int[] ans = new int[digits.length+1];
+        ans[0]= 1;
+        for (int i =0 ; i < length ; i++) {
+            ans[i+1]=digits[i];
+        }
+
+
+
+     return ans;
+}
+
+
+//https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/
+//[1,1,2]
+//2
+int removeDuplicates(int[] nums) {
+    if(nums.length==0) {
+        return 0;
+    }
+
+    int placeToreplace=1;
+
+    for (int i = 1; i < nums.length; i++) {
+        if(nums[i]!=nums[placeToreplace-1]){
+            nums[placeToreplace]=nums[i];
+            placeToreplace++;
+        }
+    }
+
+
+
+
+return placeToreplace;
 }
