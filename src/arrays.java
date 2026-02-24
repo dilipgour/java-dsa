@@ -80,7 +80,9 @@ void main(){
 
 //    System.out.println(Arrays.toString(plusOne(new int[]{1,2,3})));
 
-    System.out.println(removeDuplicates(new int[]{0,0,1,1,1,2,2,3,3,4}));
+//    System.out.println(removeDuplicates(new int[]{0,0,1,1,1,2,2,3,3,4}));
+
+    System.out.println(minCostToMoveChips(new int[]{2,2,2,3,3}));
 
 
 
@@ -675,8 +677,27 @@ int removeDuplicates(int[] nums) {
         }
     }
 
-
-
-
 return placeToreplace;
 }
+
+//https://leetcode.com/problems/minimum-cost-to-move-chips-to-the-same-position/
+//position = [1,2,3]
+//1
+
+int minCostToMoveChips(int[] position) {
+int totalodd=0;
+int totaleven=0;
+
+    for (int i = 0; i < position.length; i++) {
+        if(position[i]%2==0){
+            totaleven++;
+        }else{
+            totalodd++;
+        }
+
+    }
+
+    return Math.min(totaleven,totalodd);
+
+}
+
