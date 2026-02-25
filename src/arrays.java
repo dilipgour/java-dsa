@@ -82,7 +82,9 @@ void main(){
 
 //    System.out.println(removeDuplicates(new int[]{0,0,1,1,1,2,2,3,3,4}));
 
-    System.out.println(minCostToMoveChips(new int[]{2,2,2,3,3}));
+//    System.out.println(minCostToMoveChips(new int[]{2,2,2,3,3}));
+
+//    System.out.println(findRotation(new int[][]{{0,1},{1,0}}, new int[][]{{1,0},{0,1}}));
 
 
 
@@ -699,5 +701,43 @@ int totaleven=0;
 
     return Math.min(totaleven,totalodd);
 
+}
+
+//https://leetcode.com/problems/determine-whether-matrix-can-be-obtained-by-rotation/description/
+//mat = [[0,0,0],[0,1,0],[1,1,1]], target = [[1,1,1],[0,1,0],[0,0,0]]
+//true
+boolean findRotation(int[][] mat, int[][] target) {
+    int n= mat.length;
+    for (int i = 0; i < 5; i++) {
+        if(isEqual(mat,target)) return true;
+        mat=rotate90(mat);
+
+    }
+    return false;
+
+}
+
+boolean isEqual(int[][] mat1, int[][] mat2){
+    int n= mat1.length;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if(mat1[i][j]!=mat2[i][j]){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+int[][] rotate90(int[][] mat){
+    int n= mat.length;
+    int[][] ans = new int[n][n];
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            ans[j][n-i-1] = mat[i][j];
+        }
+    }
+    return ans;
 }
 
