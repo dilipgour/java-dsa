@@ -86,6 +86,7 @@ void main(){
 
 //    System.out.println(findRotation(new int[][]{{0,1},{1,0}}, new int[][]{{1,0},{0,1}}));
 
+    System.out.println(spiralOrder(new int[][]{{1,2,3,4},{5,6,7,8},{9,10,11,12}}));
 
 
 
@@ -741,3 +742,66 @@ int[][] rotate90(int[][] mat){
     return ans;
 }
 
+//List<Integer> spiralOrder(int[][] matrix) {
+//    List<Integer> ans = new ArrayList<>();
+//    int i=0;
+//    int j=0;
+//    int rightmost=matrix[0].length;
+//    int leftmost = -1;
+//    int bottommost = matrix.length;
+//
+//    while(j<rightmost){
+//        ans.add(matrix[i][j]);
+//        j++;
+//    }
+//    j--;
+//    i++;
+//    while(i<bottommost){
+//        ans.add(matrix[i][j]);
+//        i++;
+//    }
+//    i--;
+//    j--;
+//    while(j>leftmost){
+//        ans.add(matrix[i][j]);
+//        j--;
+//    }
+//    int topmost=0;
+//    j++;
+//    i--;
+//    while(i>topmost){
+//        ans.add(matrix[i][j]);
+//        i--;
+//    }
+//    j++;
+//    i++;
+//    while(j<rightmost-1){
+//        ans.add(matrix[i][j]);
+//        j++;
+//    }
+//
+//    return ans;
+//}
+
+List<Integer> spiralOrder(int[][] matrix) {
+    int top=0;
+    int bottom = matrix.length-1;
+    int left=0;
+    int right=matrix[0].length-1;
+    List<Integer> ans = new ArrayList<>();
+
+    for (int i = left; i <=right ; i++) {
+        ans.add(matrix[top][i]);
+    }
+    top++;
+    for (int i = top; i <= bottom; i++) {
+        ans.add(matrix[i][right]);
+    }
+    right--;
+    for (int i = right; i >left ; i--) {
+        ans.add(matrix[bottom][i]);
+    }
+    bottom--;
+
+    return ans;
+}
