@@ -86,8 +86,13 @@ void main(){
 
 //    System.out.println(findRotation(new int[][]{{0,1},{1,0}}, new int[][]{{1,0},{0,1}}));
 
-    System.out.println(spiralOrder(new int[][]{{1,2,3,4},{5,6,7,8},{9,10,11,12}}));
+//    System.out.println(spiralOrder(new int[][]{{1,2,3},{4,5,6},{7,8,9}}));
 
+    int[][] matanas = generateMatrix(3);
+    matanas=spiralMatrixIII(5,6,1,4);
+    for (int i = 0; i < matanas.length; i++) {
+        System.out.println(Arrays.toString(matanas[i]));
+    }
 
 
 }
@@ -742,53 +747,19 @@ int[][] rotate90(int[][] mat){
     return ans;
 }
 
-//List<Integer> spiralOrder(int[][] matrix) {
-//    List<Integer> ans = new ArrayList<>();
-//    int i=0;
-//    int j=0;
-//    int rightmost=matrix[0].length;
-//    int leftmost = -1;
-//    int bottommost = matrix.length;
-//
-//    while(j<rightmost){
-//        ans.add(matrix[i][j]);
-//        j++;
-//    }
-//    j--;
-//    i++;
-//    while(i<bottommost){
-//        ans.add(matrix[i][j]);
-//        i++;
-//    }
-//    i--;
-//    j--;
-//    while(j>leftmost){
-//        ans.add(matrix[i][j]);
-//        j--;
-//    }
-//    int topmost=0;
-//    j++;
-//    i--;
-//    while(i>topmost){
-//        ans.add(matrix[i][j]);
-//        i--;
-//    }
-//    j++;
-//    i++;
-//    while(j<rightmost-1){
-//        ans.add(matrix[i][j]);
-//        j++;
-//    }
-//
-//    return ans;
-//}
-
+//https://leetcode.com/problems/spiral-matrix/description/
+//matrix = [[1,2,3],[4,5,6],[7,8,9]]
+//[1,2,3,6,9,8,7,4,5]
 List<Integer> spiralOrder(int[][] matrix) {
     int top=0;
     int bottom = matrix.length-1;
     int left=0;
     int right=matrix[0].length-1;
     List<Integer> ans = new ArrayList<>();
+
+    while(top<=bottom&&left<=right){
+
+
 
     for (int i = left; i <=right ; i++) {
         ans.add(matrix[top][i]);
@@ -798,10 +769,102 @@ List<Integer> spiralOrder(int[][] matrix) {
         ans.add(matrix[i][right]);
     }
     right--;
-    for (int i = right; i >left ; i--) {
-        ans.add(matrix[bottom][i]);
+
+    if (top <= bottom) {
+            for (int i = right; i >=left ; i--) {
+                ans.add(matrix[bottom][i]);
+            }
+            bottom--;
+        }
+
+     if(left<=right){
+
+    for (int i = bottom; i >=top ; i--) {
+        ans.add(matrix[i][left]);
     }
-    bottom--;
+    left++;
+}
+
+    }
+    return ans;
+}
+
+//https://leetcode.com/problems/spiral-matrix-ii/description/
+//n = 3
+//[[1,2,3],[8,9,4],[7,6,5]]
+
+int[][] generateMatrix(int n) {
+    int top=0;
+    int bottom = n-1;
+    int left=0;
+    int right=n-1;
+    int count=1;
+    int[][] matrix = new int[n][n];
+
+    while(count<=n*n){
+
+        for (int i = left; i <=right ; i++) {
+            matrix[top][i]=count++;
+        }
+        top++;
+
+        for (int i = top; i <= bottom; i++) {
+            matrix[i][right]=count++;
+        }
+        right--;
+
+        if (top <= bottom) {
+            for (int i = right; i >=left ; i--) {
+               matrix[bottom][i]=count++;
+            }
+            bottom--;
+        }
+
+        if(left<=right){
+
+            for (int i = bottom; i >=top ; i--) {
+                matrix[i][left]=count++;
+            }
+            left++;
+        }
+
+    }
+    return matrix;
+}
+
+//https://leetcode.com/problems/spiral-matrix-iii/
+//rows = 1, cols = 4, rStart = 0, cStart = 0
+//[[0,0],[0,1],[0,2],[0,3]]
+
+int[][] spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
+ int[][] ans = new int[rows*cols][2];
+ int size =1;
+ int count=0;
+ int[][] dirs = {
+            {0,1},   // right
+            {1,0},   // down
+            {0,-1},  // left
+            {-1,0}   // up
+    };
+ int dirIndex=0;
+
+ while(count<rows*cols){
+
+     for (int repeat = 0; repeat < 2; repeat++) {
+             int[] dir = dirs[dirIndex%4];
+             for (int j = 0; j < size; j++) {
+                 if(rStart>=0&&rStart<rows&&cStart>=0&&cStart<cols) {
+                     ans[count][0] = rStart;
+                     ans[count++][1] = cStart;
+                 }
+                 rStart += dir[0];
+                 cStart += dir[1];
+         }
+      dirIndex++;
+     }
+     size++;
+ }
+
 
     return ans;
 }
