@@ -94,13 +94,16 @@ void main(){
 //        System.out.println(Arrays.toString(matanas[i]));
 //    }
 
-    int[][] mat = new int[][]{{5,1,0},
-                               {3,4,5},
-                               {6,7,8}};
-    setZeroes(mat);
-    for (int i = 0; i < mat.length; i++) {
-        System.out.println(Arrays.toString(mat[i]));
-    }
+//    int[][] mat = new int[][]{{5,1,0},
+//                               {3,4,5},
+//                               {6,7,8}};
+//    setZeroes(mat);
+//    for (int i = 0; i < mat.length; i++) {
+//        System.out.println(Arrays.toString(mat[i]));
+//    }
+//
+
+    System.out.println(Arrays.toString(productExceptSelf(new int[]{-1,1,0,-3,3})));
 
 }
 
@@ -953,4 +956,44 @@ void setZeroes(int[][] matrix){
             matrix[i][0]=0;
         }
     }
+}
+
+//https://leetcode.com/problems/product-of-array-except-self/
+//nums = [1,2,3,4]
+//[24,12,8,6]
+//int[] productExceptSelf(int[] nums) {
+//int[] ans = new int[nums.length];
+//
+//    for (int i = 0; i < nums.length; i++) {
+//        int product = 1;
+//        for (int j = 0; j < nums.length; j++) {
+//            if(i!=j){
+//                product*= nums[j];
+//            }
+//
+//        }
+//        ans[i]= product;
+//    }
+//
+//    return ans;
+//}
+
+int[] productExceptSelf(int[] nums){
+ int[] ans = new int[nums.length];
+ int rightProduct =1;
+
+ ans[0]= 1;
+
+    for (int i = 1; i <nums.length ; i++) {
+        ans[i] = ans[i-1]*nums[i-1];
+    }
+
+    for (int j = nums.length-1; j >0 ; j--) {
+
+        ans[j]*=rightProduct;
+        rightProduct*=nums[j];
+
+    }
+    ans[0]=rightProduct;
+    return ans;
 }
