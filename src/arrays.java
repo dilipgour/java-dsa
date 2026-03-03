@@ -111,8 +111,8 @@ void main(){
 
 //    rotate(new int[]{1,2,3,4,5,6,7},3);
 
-    sortColors(new int[]{2,0,2,1,1,0});
-
+//    sortColors(new int[]{2,0,2,1,1,0});
+    System.out.println(rob(new int[]{1,2,3,1}));
 }
 
 
@@ -1120,4 +1120,18 @@ int[] freq = new int[3];
         }
     }
 
+}
+
+//https://leetcode.com/problems/house-robber/description/
+//nums = [1,2,3,1]
+//4
+
+int rob(int[] nums) {
+  return rob(nums,nums.length-1);
+}
+
+int rob(int[] nums, int n){
+    if(n<0) return 0;
+
+    return Math.max(rob(nums,n-2)+nums[n],rob(nums,n-1));
 }
