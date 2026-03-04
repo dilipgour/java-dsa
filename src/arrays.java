@@ -112,7 +112,9 @@ void main(){
 //    rotate(new int[]{1,2,3,4,5,6,7},3);
 
 //    sortColors(new int[]{2,0,2,1,1,0});
-    System.out.println(rob(new int[]{1,2,3,1}));
+//    System.out.println(rob(new int[]{2, 7, 9, 3, 1}));
+
+    System.out.println(firstMissingPositive(new int[]{3,4,-1,1}));
 }
 
 
@@ -1134,4 +1136,37 @@ int rob(int[] nums, int n){
     if(n<0) return 0;
 
     return Math.max(rob(nums,n-2)+nums[n],rob(nums,n-1));
+}
+
+//https://leetcode.com/problems/first-missing-positive/
+//nums = [1,2,0]
+//3
+
+int firstMissingPositive(int[] nums) {
+    int i=0;
+    int  n = nums.length;
+
+    while(i<n){
+        int correct = nums[i]-1;
+        if(nums[i]>0 && nums[i]<=n && nums[i]!=nums[correct]){
+            System.out.println("in swap");
+            swap(nums, i,correct);
+        }else{
+            i++;
+        }
+
+    }
+
+    for (int j = 0; j < n; j++) {
+        if(nums[j]!=j+1){
+            return j+1;
+        }
+    }
+    return n+1;
+}
+
+void swap(int[] arr, int idx1, int idx2){
+    int temp = arr[idx1];
+    arr[idx1] = arr[idx2];
+    arr[idx2] = temp;
 }
