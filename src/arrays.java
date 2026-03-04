@@ -114,8 +114,10 @@ void main(){
 //    sortColors(new int[]{2,0,2,1,1,0});
 //    System.out.println(rob(new int[]{2, 7, 9, 3, 1}));
 
-    System.out.println(firstMissingPositive(new int[]{3,4,-1,1}));
+//    System.out.println(firstMissingPositive(new int[]{3,4,-1,1}));
+    System.out.println(isGoodArray(new int[]{12,5,7,23}));
 }
+
 
 
 
@@ -1169,4 +1171,26 @@ void swap(int[] arr, int idx1, int idx2){
     int temp = arr[idx1];
     arr[idx1] = arr[idx2];
     arr[idx2] = temp;
+}
+
+//https://leetcode.com/problems/check-if-it-is-a-good-array/
+//nums = [12,5,7,23]
+//true
+boolean isGoodArray(int[] nums) {
+int g=nums[0];
+
+    for (int i = 0; i < nums.length; i++) {
+        g= gcd(g,nums[i]);
+    }
+    return g==1;
+}
+
+int gcd(int a, int b){
+    while (b > 0) {
+        a %= b;
+        int temp = a;
+        a = b;
+        b = temp;
+    }
+    return a;
 }
