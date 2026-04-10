@@ -13,7 +13,12 @@ void main() {
 //            {-1, -1, -2, -3}}));
 //}
 
-    System.out.println(Arrays.toString(intersectionBs(new int[]{1, 2, 2, 1}, new int[]{2, 2})));
+//    System.out.println(Arrays.toString(intersectionBs(new int[]{1, 2, 2, 1}, new int[]{2, 2})));
+//    System.out.println(Arrays.toString(intersect(new int[]{4,9,5}, new int[]{9,4,9,8,4})));
+//    System.out.println(Arrays.toString(intersactionOf2Array2(new int[]{4,9,5}, new int[]{9,4,9,8,4})));
+//    System.out.println(Arrays.toString(fairCandySwapBS(new int[]{2}, new int[]{1,3})));
+//    System.out.println(checkIfExist(new int[]{3,1,7,11}));
+    System.out.println(specialArrayBS(new int[]{0,0}));
 }
 
 int sqrt(int num) {
@@ -338,6 +343,243 @@ int binarySearch(int[] arr, int target){
         }else{
             e=mid-1;
         }
+    }
+    return -1;
+}
+
+//https://leetcode.com/problems/intersection-of-two-arrays-ii/description/
+//Input: nums1 = [1,2,2,1], nums2 = [2,2]
+//Output: [2,2]
+int[] intersect(int[] nums1, int[] nums2) {
+List ans = new ArrayList<Integer>();
+Map m1 = new HashMap<Integer,Integer>();
+Map m2 = new HashMap<Integer,Integer>();
+
+Arrays.sort(nums1);
+Arrays.sort(nums2);
+
+    for (int i = 0; i < nums1.length; i++) {
+        int firstIndex = getFirstAndLastPosition(nums1,nums1[i],true);
+        if(firstIndex!=-1){
+            int lastIndex =getFirstAndLastPosition(nums1,nums1[i],false);
+            int count = (lastIndex-firstIndex)+1;
+            m1.put(nums1[i],count);
+        }
+    }
+
+    for (int i = 0; i < nums2.length; i++) {
+        int firstIndex = getFirstAndLastPosition(nums2,nums2[i],true);
+        if(firstIndex!=-1){
+            int lastIndex =getFirstAndLastPosition(nums2,nums2[i],false);
+            int count = (lastIndex-firstIndex)+1;
+            m2.put(nums2[i],count);
+        }
+    }
+
+    for (int i = 0; i < nums1.length; i++) {
+        Integer firstCount = (Integer) m1.get(nums1[i]);
+        if(firstCount!=null){
+            Integer secondCount = (Integer) m2.get(nums1[i]);
+            if(secondCount!=null){
+                int times = firstCount<secondCount?firstCount:secondCount;
+                for (int j = 0; j < times; j++) {
+                   ans.add(nums1[i]);
+                }
+            }
+        }
+    }
+ int[] arr = new int[ans.size()];
+
+    for (int i = 0; i < ans.size(); i++) {
+        arr[i] = (int) ans.get(i);
+    }
+    return arr;
+}
+
+int getFirstAndLastPosition(int[] arr, int target,boolean isFindingFirst){
+    int s=0;
+    int e=arr.length-1;
+    int pos=-1;
+
+    while (s<=e){
+        int mid = s+(e-s)/2;
+        if(arr[mid]==target) {
+            pos = mid;
+            if (isFindingFirst) {
+                e = mid - 1;
+            } else {
+                s = mid + 1;
+            }
+        }else if(arr[mid]<target){
+            s=mid+1;
+        }else {
+            e=mid-1;
+        }
+    }
+    return pos;
+}
+
+int[] intersactionOf2Array2(int[] nums1, int[] nums2){
+    Map m = new HashMap<Integer,Integer>();
+    List ans = new ArrayList<Integer>();
+    for (int i = 0; i < nums1.length; i++) {
+        Integer prev =(Integer) m.get(nums1[i]);
+        if(prev==null){
+            m.put(nums1[i],1);
+        }else {
+            prev++;
+            m.put(nums1[i],prev);
+        }
+
+    }
+
+    for (int i = 0; i < nums2.length; i++) {
+        Integer val = (Integer) m.get(nums2[i]);
+        if(val!=null&&val!=0){
+            ans.add(nums2[i]);
+            val--;
+            m.put(nums2[i],val);
+        }
+    }
+
+    int[] arr = new int[ans.size()];
+
+    for (int i = 0; i < ans.size(); i++) {
+        arr[i] = (int) ans.get(i);
+    }
+    return arr;
+}
+
+//https://leetcode.com/problems/fair-candy-swap/description/
+//Input: aliceSizes = [1,1], bobSizes = [2,2]
+//Output: [1,2]
+int[] fairCandySwap(int[] aliceSizes, int[] bobSizes) {
+int sum1=0;
+int sum2=0;
+int[] ans = new int[2];
+
+    for (int i = 0; i < aliceSizes.length; i++) {
+        sum1+= aliceSizes[i];
+    }
+
+    for (int i = 0; i < bobSizes.length; i++) {
+        sum2+= bobSizes[i];
+    }
+
+    for (int i = 0; i < aliceSizes.length; i++) {
+        for (int j = 0; j < bobSizes.length; j++) {
+            if((sum1-aliceSizes[i])+bobSizes[j]==(sum2-bobSizes[j])+aliceSizes[i]){
+                ans[0]=aliceSizes[i];
+                ans[1]=bobSizes[j];
+                break;
+            }
+        }
+    }
+    return ans;
+
+}
+
+int[] fairCandySwapBS(int[] aliceSizes, int[] bobSizes) {
+int sum1=0;
+int sum2=0;
+int[] ans = new int[2];
+
+    for (int i = 0; i < aliceSizes.length; i++) {
+        sum1+= aliceSizes[i];
+    }
+
+    for (int i = 0; i < bobSizes.length; i++) {
+        sum2+= bobSizes[i];
+    }
+    Arrays.sort(bobSizes);
+
+    for (int i = 0; i < aliceSizes.length; i++) {
+        int target = aliceSizes[i]-(sum1-sum2)/2;
+        int ansIdx  = binarySearch(bobSizes,target);
+        if(ansIdx!=-1){
+            ans[0]=aliceSizes[i];
+            ans[1]=bobSizes[ansIdx];
+            break;
+        }
+    }
+    return ans;
+
+}
+
+boolean checkIfExist(int[] arr) {
+Arrays.sort(arr);
+
+    for (int i = 0; i < arr.length; i++) {
+        int idx = binarySearch(arr,arr[i]*2);
+        if(idx!=-1&&idx!=i){
+            return true;
+        }
+    }
+    return false;
+}
+
+//https://leetcode.com/problems/special-array-with-x-elements-greater-than-or-equal-x/
+//Input: nums = [3,5]
+//Output: 2
+
+int specialArray(int[] nums) {
+
+    for (int i = 0; i <= nums.length; i++) {
+        int count = 0;
+        for (int j = 0; j < nums.length; j++) {
+            if(nums[j] >= i) count++;
+        }
+        if(count == i) return i;
+    }
+    return -1;
+}
+
+int specialArrayBS(int[] nums) {
+    Arrays.sort(nums);
+   int s=0;
+   int e= nums.length;
+
+   while(s<=e){
+       int mid = s+(e-s)/2;
+       int count = findFirst(nums,mid);
+       if(count==mid) return mid;
+       if(count>mid){
+           s=mid+1;
+       }else{
+           e=mid-1;
+       }
+   }
+    return -1;
+}
+
+int findFirst(int[] arr, int target){
+    int s=0;
+    int e=arr.length-1;
+    int firstIndex=-1;
+    while(s<=e){
+        int mid = s+(e-s)/2;
+        if(arr[mid]>=target){
+            firstIndex=mid;
+            e=mid-1;
+        }else{
+            s=mid+1;
+        }
+    }
+    return arr.length-firstIndex;
+}
+
+//https://leetcode.com/problems/binary-search/description/
+//Input: nums = [-1,0,3,5,9,12], target = 9
+//Output: 4
+int search(int[] nums, int target) {
+    int s = 0;
+    int e = nums.length - 1;
+
+    while (s <= e) {
+        int mid = s + (e - s) / 2;
+        if (nums[mid] == target) return mid;
+        if (nums[mid] < target) s = mid + 1;
+        else e = mid - 1;
     }
     return -1;
 }
