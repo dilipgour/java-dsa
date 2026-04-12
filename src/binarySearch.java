@@ -18,7 +18,11 @@ void main() {
 //    System.out.println(Arrays.toString(intersactionOf2Array2(new int[]{4,9,5}, new int[]{9,4,9,8,4})));
 //    System.out.println(Arrays.toString(fairCandySwapBS(new int[]{2}, new int[]{1,3})));
 //    System.out.println(checkIfExist(new int[]{3,1,7,11}));
-    System.out.println(specialArrayBS(new int[]{0,0}));
+//    System.out.println(specialArrayBS(new int[]{0,0}));
+//    System.out.println(Arrays.toString(searchRange(new int[]{5,7,7,8,8,10},8)));
+//    System.out.println(singleNonDuplicate(new int[]{3,3,7,7,10,11,11}));
+//    System.out.println(singleNonDuplicateBS(new int[]{1,1,2,3,3,4,4,8,8}));
+    System.out.println(searchRotate2(new int[]{4,5,6,7,0,1,2},4));
 }
 
 int sqrt(int num) {
@@ -580,6 +584,141 @@ int search(int[] nums, int target) {
         if (nums[mid] == target) return mid;
         if (nums[mid] < target) s = mid + 1;
         else e = mid - 1;
+    }
+    return -1;
+}
+
+//https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+//Input: nums = [5,7,7,8,8,10], target = 8
+//Output: [3,4]
+int[] searchRange(int[] nums, int target) {
+int[] ans = new int[]{-1,-1};
+
+int firstIndex= getFirstAndLastPosition(nums,target,true);
+if(firstIndex==-1) return ans;
+
+int lastIndex = getFirstAndLastPosition(nums,target,false);
+ans[0]=firstIndex;
+ans[1]=lastIndex;
+return ans;
+}
+
+//https://leetcode.com/problems/single-element-in-a-sorted-array/
+//Input: nums = [1,1,2,3,3,4,4,8,8]
+//Output: 2
+ int singleNonDuplicate(int[] nums) {
+ int ans=0;
+
+     for (int i = 1; i <nums.length-1 ; i++) {
+         if(nums[i]!=nums[i+1]&&nums[i]!=nums[i-1]){
+             ans= nums[i];
+             break;
+         }
+     }
+     return ans;
+}
+
+int singleNonDuplicateBS(int[] nums) {
+int s=0;
+int e = nums.length-1;
+
+while(s<=e){
+    int mid =s+(e-s)/2;
+
+    if(mid>0&&nums[mid]!=nums[mid-1]&&mid<nums.length-1&&nums[mid]!=nums[mid+1]){
+        return nums[mid];
+    }
+
+    if(mid%2==0){
+        if(nums[mid]==nums[mid+1]){
+            s=mid+2;
+        }else{
+            e=mid;
+        }
+    }else{
+        if(nums[mid]==nums[mid-1]){
+            s=mid+1;
+        }else{
+            e=mid-1;
+        }
+    }
+
+    }
+return -1;
+}
+
+//https://leetcode.com/problems/search-in-rotated-sorted-array/description/
+//Input: nums = [4,5,6,7,0,1,2], target = 0
+//Output: 4
+int searchRotate(int[] nums, int target) {
+ if(nums[0]<nums[nums.length-1]){
+     return searchChunk(nums,target,0,nums.length-1); //questions stays possibally-left  rotated so we check is it rotated if not we perform simple binary search
+ }
+ int rotationIndex = foundRotation(nums);
+
+ int ans = searchChunk(nums,target,0,rotationIndex-1);
+ if(ans==-1){
+     ans = searchChunk(nums,target,rotationIndex, nums.length-1);
+ }
+
+
+ return ans;
+}
+
+int foundRotation(int[] arr){
+    int s=0;
+    int e= arr.length-1;
+
+    while(s<e){
+        int mid = s+(e-s)/2;
+
+        if(arr[mid]>arr[0]){
+            s=mid+1;
+        }else{
+            e=mid-1;
+        }
+    }
+    return s;
+}
+
+int searchChunk(int[] arr, int target, int s, int e){
+
+    while(s<=e){
+        int mid = s+(e-s)/2;
+
+        if(target==arr[mid]) return mid;
+
+        if(target<arr[mid]){
+            e=mid-1;
+        }else{
+            s=mid+1;
+        }
+    }
+    return -1;
+}
+
+int searchRotate2(int [] nums, int target){
+    int s=0;
+    int e= nums.length-1;
+
+    while(s<=e){
+        int mid= s+(e-s)/2;
+
+        if(nums[mid]==target) return mid;
+
+        if(nums[mid]>nums[s]){
+           if(target>=nums[s]&&target<nums[mid]){
+               e=mid-1;
+           }else{
+               s=mid+1;
+           }
+        }else{
+            if(target>nums[mid]&&target<=nums[e]){
+                s=mid+1;
+            }else{
+                e=mid-1;
+            }
+        }
     }
     return -1;
 }
