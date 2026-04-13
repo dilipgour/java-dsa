@@ -22,7 +22,13 @@ void main() {
 //    System.out.println(Arrays.toString(searchRange(new int[]{5,7,7,8,8,10},8)));
 //    System.out.println(singleNonDuplicate(new int[]{3,3,7,7,10,11,11}));
 //    System.out.println(singleNonDuplicateBS(new int[]{1,1,2,3,3,4,4,8,8}));
-    System.out.println(searchRotate2(new int[]{4,5,6,7,0,1,2},4));
+//    System.out.println(searchRotate2(new int[]{4,5,6,7,0,1,2},4));
+//    System.out.println(searchRotateII(new int[]{2,5,6,0,0,1,2},8));
+//    System.out.println(findMin(new int[]{3,1,2}));
+//    System.out.println(findPeakElement(new int[]{1,2,1,3,5,6,4}));
+    System.out.println(Arrays.toString(findRightInterval(new int[][]{{3,4},{2,3},{1,2}})));
+
+
 }
 
 int sqrt(int num) {
@@ -721,4 +727,122 @@ int searchRotate2(int [] nums, int target){
         }
     }
     return -1;
+}
+
+//https://leetcode.com/problems/search-in-rotated-sorted-array-ii/description/
+//Input: nums = [2,5,6,0,0,1,2], target = 0
+//Output: true
+boolean searchRotateII(int [] nums, int target){
+    int s=0;
+    int e= nums.length-1;
+
+    while(s<=e){
+        int mid= s+(e-s)/2;
+
+        if(nums[mid]==target) return true;
+        if(nums[mid]==nums[s]&&nums[mid]==nums[e]){
+            s++;
+            e--;
+        }else if(nums[mid]>nums[s]){
+           if(target>=nums[s]&&target<nums[mid]){
+               e=mid-1;
+           }else{
+               s=mid+1;
+           }
+        }else{
+            if(target>nums[mid]&&target<=nums[e]){
+                s=mid+1;
+            }else{
+                e=mid-1;
+            }
+        }
+    }
+    return false;
+}
+
+//https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
+//Input: nums = [3,4,5,1,2]
+//Output: 1
+
+int findMin(int[] nums) {
+int s=0;
+int e= nums.length-1;
+
+while(s<e){
+    int mid=s+(e-s)/2;
+
+
+    if(nums[mid]<nums[e]){
+        e=mid;
+    }else{
+        s=mid+1;
+    }
+}
+return nums[s];
+}
+
+//https://leetcode.com/problems/find-peak-element/
+//Input: nums = [1,2,3,1]
+//Output: 2
+
+int findPeakElement(int[] nums) {
+ int s=0;
+ int e=nums.length-1;
+
+ while(s<e){
+     int mid = s+(e-s)/2;
+
+     if(nums[mid]<nums[mid+1]){
+         s=mid+1;
+     }else if(nums[mid]>nums[mid+1]){
+         e=mid;
+     }
+ }
+ return s;
+}
+
+//https://leetcode.com/problems/find-right-interval/description/
+//Input: intervals = [[1,2]]
+//Output: [-1]
+
+int[] findRightInterval(int[][] intervals) {
+    int n= intervals.length;
+    int[] ans = new int[n];
+    int[] starts = new int[n];
+    Map<Integer, Integer> map = new HashMap<>();
+    for(int i = 0; i < n; i++){
+        map.put(intervals[i][0], i);
+    }
+
+
+    for (int i = 0; i < n; i++) {
+        starts[i]=intervals[i][0];
+    }
+    Arrays.sort(starts);
+
+    for (int i = 0; i < n; i++) {
+        int startIdx = foundgreaterOrEqualToTarget(starts,intervals[i][1]);
+        ans[i]= startIdx==-1?-1:map.get(starts[startIdx]);
+    }
+return ans;
+
+
+}
+
+int foundgreaterOrEqualToTarget(int[] arr, int target){
+
+    int s=0;
+    int e=arr.length-1;
+    int ans=-1;
+
+    while (s<=e){
+        int mid = s+(e-s)/2;
+        if(arr[mid]>=target){
+            ans=mid;
+                e=mid-1;
+        }else{
+            s=mid+1;
+        }
+    }
+    return ans;
 }
